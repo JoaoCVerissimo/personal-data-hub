@@ -203,7 +203,7 @@ curl -X POST http://localhost:8000/api/v1/query/search \
 
 ## Key Design Decisions
 
-- **IVFFlat over HNSW** — Lower memory footprint, sufficient for personal data scale (<1M chunks)
+- **HNSW over IVFFlat** — Works correctly regardless of dataset size; IVFFlat requires tuning list count to data volume
 - **RQ over Celery** — Simpler for single-machine deployments
 - **Content dedup via SHA-256** — Incremental syncs skip unchanged documents
 - **Embedding model loaded once** — ~500MB RAM, cached as singleton at startup

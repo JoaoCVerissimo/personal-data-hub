@@ -24,6 +24,7 @@ class SearchResultItem(BaseModel):
     content: str
     score: float
     metadata: dict
+    source_config: dict
 
 
 class SearchResponse(BaseModel):

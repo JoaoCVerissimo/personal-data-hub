@@ -37,6 +37,7 @@ async def search(
                 content=r.content,
                 score=r.score,
                 metadata=r.metadata,
+                source_config=r.source_config,
             )
             for r in result.results
         ],

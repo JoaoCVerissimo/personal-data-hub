@@ -39,6 +39,7 @@ export interface SearchResult {
   content: string;
   score: number;
   metadata: Record<string, unknown>;
+  source_config: Record<string, unknown>;
 }
 
 export interface SearchResponse {

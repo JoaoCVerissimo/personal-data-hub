@@ -21,6 +21,7 @@ class SearchResult:
     content: str
     score: float
     metadata: dict
+    source_config: dict
 
 
 @dataclass
@@ -57,6 +58,7 @@ class SearchService:
                 Document.metadata_.label("doc_metadata"),
                 DataSource.name.label("source_name"),
                 DataSource.source_type,
+                DataSource.config.label("source_config"),
                 DocumentChunk.embedding.cosine_distance(query_embedding).label("distance"),
             )
             .join(Document, DocumentChunk.document_id == Document.id)
@@ -85,6 +87,7 @@ class SearchService:
                 content=row.content,
                 score=round(1 - row.distance, 4),
                 metadata=row.doc_metadata or {},
+                source_config=row.source_config or {},
             )
             for row in rows
         ]

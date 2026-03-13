@@ -1,11 +1,25 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchSources, createSource, deleteSource, syncSource } from "../api/sources";
+import { fetchSources, fetchSource, fetchSourceDocuments, createSource, deleteSource, syncSource } from "../api/sources";
 import type { SourceCreate } from "../api/types";
 
 export function useSources() {
   return useQuery({
     queryKey: ["sources"],
     queryFn: fetchSources,
+  });
+}
+
+export function useSource(id: string) {
+  return useQuery({
+    queryKey: ["sources", id],
+    queryFn: () => fetchSource(id),
+  });
+}
+
+export function useSourceDocuments(sourceId: string, page: number = 1) {
+  return useQuery({
+    queryKey: ["sources", sourceId, "documents", page],
+    queryFn: () => fetchSourceDocuments(sourceId, page),
   });
 }
 

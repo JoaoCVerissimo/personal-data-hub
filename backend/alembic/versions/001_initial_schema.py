@@ -66,8 +66,8 @@ def upgrade() -> None:
         "idx_chunks_embedding",
         "document_chunks",
         ["embedding"],
-        postgresql_using="ivfflat",
-        postgresql_with={"lists": 100},
+        postgresql_using="hnsw",
+        postgresql_with={"m": 16, "ef_construction": 64},
         postgresql_ops={"embedding": "vector_cosine_ops"},
     )
 

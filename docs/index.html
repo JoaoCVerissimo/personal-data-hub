@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Data Hub — Documentation</title>
+  <style>
+    :root {
+      --blue-50: #eff6ff;
+      --blue-100: #dbeafe;
+      --blue-200: #bfdbfe;
+      --blue-500: #3b82f6;
+      --blue-600: #2563eb;
+      --blue-700: #1d4ed8;
+      --purple-50: #faf5ff;
+      --purple-100: #f3e8ff;
+      --purple-500: #8b5cf6;
+      --purple-600: #7c3aed;
+      --green-50: #f0fdf4;
+      --green-100: #dcfce7;
+      --green-500: #22c55e;
+      --green-600: #16a34a;
+      --amber-50: #fffbeb;
+      --amber-100: #fef3c7;
+      --amber-500: #f59e0b;
+      --rose-50: #fff1f2;
+      --rose-100: #ffe4e6;
+      --rose-500: #f43f5e;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --radius: 12px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+      --shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: var(--gray-800);
+      line-height: 1.6;
+      background: var(--gray-50);
+    }
+
+    /* ---- Hero ---- */
+    .hero {
+      background: linear-gradient(135deg, var(--blue-700) 0%, var(--purple-600) 100%);
+      color: #fff;
+      padding: 80px 24px 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: var(--gray-50);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .hero p { font-size: 1.25rem; opacity: .9; max-width: 600px; margin: 0 auto; }
+
+    /* ---- Container ---- */
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    /* ---- Section ---- */
+    section { padding: 72px 0; }
+    section + section { border-top: 1px solid var(--gray-200); }
+    .section-label {
+      text-transform: uppercase;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--blue-600);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 8px;
+    }
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: var(--gray-500);
+      max-width: 640px;
+      margin-bottom: 40px;
+    }
+
+    /* ---- Cards ---- */
+    .card-grid {
+      display: grid;
+      gap: 24px;
+    }
+    .card-grid--2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .card-grid--3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .card-grid--4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow .2s, transform .2s;
+    }
+    .card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+    .card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; color: var(--gray-900); }
+    .card p { font-size: .925rem; color: var(--gray-600); }
+
+    /* icon backgrounds */
+    .icon-purple { background: var(--purple-100); }
+    .icon-blue   { background: var(--blue-100); }
+    .icon-green  { background: var(--green-100); }
+    .icon-amber  { background: var(--amber-100); }
+    .icon-rose   { background: var(--rose-100); }
+
+    /* ---- Flow / Pipeline ---- */
+    .flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .flow-step {
+      flex: 1 1 160px;
+      max-width: 200px;
+      text-align: center;
+      padding: 24px 16px;
+      position: relative;
+    }
+    .flow-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0; height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 12px solid var(--blue-500);
+      z-index: 1;
+    }
+    .flow-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--blue-600);
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+    }
+    .flow-step h4 { font-size: .95rem; font-weight: 600; color: var(--gray-800); margin-bottom: 4px; }
+    .flow-step p  { font-size: .8rem; color: var(--gray-500); }
+
+    /* ---- Workflow Diagram ---- */
+    .diagram-wrapper {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+    .diagram-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .diagram-row:last-child { margin-bottom: 0; }
+    .diagram-box {
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: .85rem;
+      font-weight: 600;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .diagram-arrow {
+      font-size: 1.4rem;
+      color: var(--gray-400);
+      flex-shrink: 0;
+    }
+    .diagram-arrow-down {
+      display: flex;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: var(--gray-400);
+      margin: 4px 0;
+    }
+    .db-purple { background: var(--purple-50); border: 1.5px solid var(--purple-500); color: var(--purple-600); }
+    .db-blue   { background: var(--blue-50);   border: 1.5px solid var(--blue-500);   color: var(--blue-600); }
+    .db-green  { background: var(--green-50);  border: 1.5px solid var(--green-500);  color: var(--green-600); }
+    .db-amber  { background: var(--amber-50);  border: 1.5px solid var(--amber-500);  color: #92400e; }
+    .db-rose   { background: var(--rose-50);   border: 1.5px solid var(--rose-500);   color: #be123c; }
+    .db-gray   { background: var(--gray-100);  border: 1.5px solid var(--gray-300);   color: var(--gray-700); }
+
+    /* ---- Feature List ---- */
+    .feature-list { list-style: none; }
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 0;
+    }
+    .feature-list li + li { border-top: 1px solid var(--gray-100); }
+    .feature-check {
+      flex-shrink: 0;
+      width: 24px; height: 24px;
+      background: var(--green-100);
+      color: var(--green-600);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .feature-list strong { color: var(--gray-900); }
+
+    /* ---- Screens ---- */
+    .screen-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+    .screen-card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow .2s, transform .2s;
+    }
+    .screen-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .screen-preview {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+    .screen-body { padding: 20px 24px; }
+    .screen-body h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 6px; }
+    .screen-body p  { font-size: .875rem; color: var(--gray-500); }
+    .preview-search   { background: linear-gradient(135deg, var(--blue-50), var(--purple-50)); }
+    .preview-sources  { background: linear-gradient(135deg, var(--green-50), var(--blue-50)); }
+    .preview-jobs     { background: linear-gradient(135deg, var(--amber-50), var(--rose-50)); }
+    .preview-dash     { background: linear-gradient(135deg, var(--purple-50), var(--rose-50)); }
+
+    /* ---- Tech Table ---- */
+    .tech-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .tech-table th, .tech-table td {
+      text-align: left;
+      padding: 14px 20px;
+      font-size: .925rem;
+    }
+    .tech-table thead th {
+      background: var(--gray-100);
+      font-weight: 600;
+      color: var(--gray-700);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .tech-table tbody tr + tr td { border-top: 1px solid var(--gray-100); }
+    .tech-table tbody td:first-child { font-weight: 600; color: var(--gray-800); }
+    .tech-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      font-size: .8rem;
+      font-weight: 600;
+    }
+    .badge-blue   { background: var(--blue-100); color: var(--blue-700); }
+    .badge-purple { background: var(--purple-100); color: var(--purple-600); }
+    .badge-green  { background: var(--green-100); color: var(--green-600); }
+    .badge-amber  { background: var(--amber-100); color: #92400e; }
+
+    /* ---- Getting Started ---- */
+    .steps-list {
+      counter-reset: step;
+      list-style: none;
+    }
+    .steps-list li {
+      counter-increment: step;
+      display: flex;
+      gap: 16px;
+      padding: 20px 0;
+    }
+    .steps-list li + li { border-top: 1px solid var(--gray-100); }
+    .steps-list li::before {
+      content: counter(step);
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      background: var(--blue-600);
+      color: #fff;
+      font-weight: 700;
+      font-size: .95rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    .steps-list code {
+      display: block;
+      background: var(--gray-800);
+      color: #e5e7eb;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: .85rem;
+      margin-top: 8px;
+      overflow-x: auto;
+      white-space: pre;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    }
+    .steps-list h4 { font-size: 1rem; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; }
+    .steps-list p  { font-size: .9rem; color: var(--gray-600); }
+
+    /* ---- API Reference ---- */
+    .api-group { margin-bottom: 28px; }
+    .api-group h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--blue-200);
+      display: inline-block;
+    }
+    .api-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
+      font-size: .875rem;
+    }
+    .api-row + .api-row { border-top: 1px solid var(--gray-100); }
+    .api-method {
+      font-size: .7rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      flex-shrink: 0;
+      min-width: 52px;
+      text-align: center;
+    }
+    .method-get    { background: var(--green-100); color: var(--green-600); }
+    .method-post   { background: var(--blue-100);  color: var(--blue-700); }
+    .method-put    { background: var(--amber-100); color: #92400e; }
+    .method-delete { background: var(--rose-100);  color: #be123c; }
+    .api-path { font-family: monospace; font-weight: 600; color: var(--gray-800); min-width: 220px; }
+    .api-desc { color: var(--gray-500); }
+
+    /* ---- Footer ---- */
+    footer {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--gray-400);
+      font-size: .85rem;
+      border-top: 1px solid var(--gray-200);
+    }
+    footer a { color: var(--blue-600); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      .section-title { font-size: 1.5rem; }
+      .flow-step:not(:last-child)::after { display: none; }
+      .flow { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <h1>Personal Data Hub</h1>
+    <p>Search across all your personal data — GitHub repos, emails, documents, and notes — using plain English.</p>
+  </header>
+
+  <!-- ===== HOW IT WORKS (overview) ===== -->
+  <section>
+    <div class="container">
+      <div class="section-label">Overview</div>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Five simple steps from raw data to instant answers.</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-circle">1</div>
+          <h4>Connect</h4>
+          <p>Add your data sources — GitHub, emails, docs, notes</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-circle">2</div>
+          <h4>Ingest</h4>
+          <p>We extract and clean text from every source</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-circle">3</div>
+          <h4>Chunk</h4>
+          <p>Text is split into small, searchable pieces</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-circle">4</div>
+          <h4>Embed</h4>
+          <p>Each chunk gets a numeric "meaning fingerprint"</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-circle">5</div>
+          <h4>Search</h4>
+          <p>Ask in plain English and get ranked results</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DATA SOURCES ===== -->
+  <section>
+    <div class="container">
+      <div class="section-label">Data Sources</div>
+      <h2 class="section-title">What You Can Connect</h2>
+      <p class="section-subtitle">Bring in data from all the places that matter to you. Everything stays on your machine.</p>
+
+      <div class="card-grid card-grid--4">
+        <div class="card">
+          <div class="card-icon icon-purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          </div>
+          <h3>GitHub Repositories</h3>
+          <p>README files, issues, pull requests, and source code — all searchable in one place.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon icon-blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
+          <h3>Exported Emails</h3>
+          <p>Import .mbox or .eml files. HTML emails are automatically converted to clean text.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon icon-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <h3>Local Documents</h3>
+          <p>Text files, PDFs, and any plain-text document you have on disk — recursively scanned.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon icon-amber">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </div>
+          <h3>Markdown Notes</h3>
+          <p>Your personal notes with YAML frontmatter support. Titles and tags become searchable metadata.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== INGESTION PIPELINE ===== -->
+  <section>
+    <div class="container">
+      <div class="section-label">Data Pipeline</div>
+      <h2 class="section-title">The Ingestion Workflow</h2>
+      <p class="section-subtitle">When you connect a source, here's what happens behind the scenes.</p>
+
+      <div class="diagram-wrapper">
+        <!-- Row 1: Sources -->
+        <div class="diagram-row">
+          <div class="diagram-box db-purple">GitHub Repo</div>
+          <div class="diagram-box db-blue">Email File</div>
+          <div class="diagram-box db-green">Documents</div>
+          <div class="diagram-box db-amber">Markdown Notes</div>
+        </div>
+        <div class="diagram-arrow-down">&#8595;</div>
+
+        <!-- Row 2: Ingestor -->
+        <div class="diagram-row">
+          <div class="diagram-box db-gray">Specialized Ingestor</div>
+        </div>
+        <div style="text-align:center; font-size:.8rem; color:var(--gray-400); margin: 4px 0;">Extracts text, cleans HTML, reads PDF pages, parses frontmatter</div>
+        <div class="diagram-arrow-down">&#8595;</div>
+
+        <!-- Row 3: Chunker -->
+        <div class="diagram-row">
+          <div class="diagram-box db-blue">Text Chunker</div>
+        </div>
+        <div style="text-align:center; font-size:.8rem; color:var(--gray-400); margin: 4px 0;">Splits into ~512-word pieces with overlap so nothing falls between cracks</div>
+        <div class="diagram-arrow-down">&#8595;</div>
+
+        <!-- Row 4: Embedder -->
+        <div class="diagram-row">
+          <div class="diagram-box db-purple">Embedding Model</div>
+        </div>
+        <div style="text-align:center; font-size:.8rem; color:var(--gray-400); margin: 4px 0;">Converts each chunk into a 768-number "meaning fingerprint" using AI</div>
+        <div class="diagram-arrow-down">&#8595;</div>
+
+        <!-- Row 5: Storage -->
+        <div class="diagram-row">
+          <div class="diagram-box db-green">PostgreSQL + pgvector</div>
+        </div>
+        <div style="text-align:center; font-size:.8rem; color:var(--gray-400); margin: 4px 0;">Stored with metadata — ready for lightning-fast similarity search</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SEARCH WORKFLOW ===== -->
+  <section>
+    <div class="container">
+      <div class="section-label">Search</div>
+      <h2 class="section-title">The Search Workflow</h2>
+      <p class="section-subtitle">Type a question in plain English. Here's how you get your answer.</p>
+
+      <div class="diagram-wrapper">
+        <div class="diagram-row">
+          <div class="diagram-box db-blue" style="font-size:1rem;">
+            "What authentication bugs were fixed recently?"
+          </div>
+        </div>
+        <div class="diagram-arrow-down">&#8595;</div>
+
+        <div class="diagram-row">
+          <div class="diagram-box db-purple">Your Question &rarr; Embedding</div>
+        </div>
+        <div style="text-align:center; font-size:.8rem; color:var(--gray-400); margin: 4px 0;">Same AI model converts your question into a meaning fingerprint</div>
+        <div class="diagram-arrow-down">&#8595;</div>
+
+        <div class="diagram-row">
+          <div class="diagram-box db-green">Cosine Similarity Search</div>
+        </div>
+        <div style="text-align:center; font-size:.8rem; color:var(--gray-400); margin: 4px 0;">Finds the closest matching chunks by comparing fingerprints — runs in milliseconds</div>
+        <div class="diagram-arrow-down">&#8595;</div>
+
+        <div class="diagram-row">
+          <div class="diagram-box db-amber">Ranked Results</div>
+        </div>
+        <div style="text-align:center; font-size:.8rem; color:var(--gray-400); margin: 4px 0;">Results sorted by relevance, each showing the source, a snippet, and a similarity score</div>
+      </div>
+
+      <div style="margin-top:32px;">
+        <h3 style="font-size:1rem; font-weight:600; margin-bottom:12px; color:var(--gray-800);">Why is this different from regular keyword search?</h3>
+        <ul class="feature-list">
+          <li>
+            <span class="feature-check">&#10003;</span>
+            <div><strong>Understands meaning, not just words.</strong> Search for "login problems" and find documents about "authentication errors" — even if those exact words aren't used.</div>
+          </li>
+          <li>
+            <span class="feature-check">&#10003;</span>
+            <div><strong>Works across all your data.</strong> One search query spans GitHub issues, emails, PDFs, and notes simultaneously.</div>
+          </li>
+          <li>
+            <span class="feature-check">&#10003;</span>
+            <div><strong>Completely private.</strong> Everything runs on your machine. No data ever leaves your computer.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== APP SCREENS ===== -->
+  <section>
+    <div class="container">
+      <div class="section-label">Interface</div>
+      <h2 class="section-title">What You'll See</h2>
+      <p class="section-subtitle">A clean, simple interface with everything you need.</p>
+
+      <div class="screen-grid">
+        <div class="screen-card">
+          <div class="screen-preview preview-search">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--blue-500)" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div class="screen-body">
+            <h3>Search</h3>
+            <p>Type your question and get ranked results with source badges, similarity scores, and content snippets. Filter by source type.</p>
+          </div>
+        </div>
+        <div class="screen-card">
+          <div class="screen-preview preview-sources">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--green-500)" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <div class="screen-body">
+            <h3>Sources</h3>
+            <p>Manage your data sources. Add new ones, see document counts, trigger syncs, and remove sources you no longer need.</p>
+          </div>
+        </div>
+        <div class="screen-card">
+          <div class="screen-preview preview-jobs">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--amber-500)" stroke-width="1.5"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
+          </div>
+          <div class="screen-body">
+            <h3>Jobs</h3>
+            <p>Watch ingestion progress in real-time with progress bars, document counts, and chunk statistics. Cancel jobs if needed.</p>
+          </div>
+        </div>
+        <div class="screen-card">
+          <div class="screen-preview preview-dash">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--purple-500)" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div class="screen-body">
+            <h3>Dashboard</h3>
+            <p>Visual charts showing document distribution by source, ingestion activity over time, and your search query patterns.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DEDUPLICATION & SMART SYNC ===== -->
+  <section>
+    <div class="container">
+      <div class="section-label">Smart Features</div>
+      <h2 class="section-title">Built to Be Efficient</h2>
+      <p class="section-subtitle">No wasted work. The system is designed to be smart about what it processes.</p>
+
+      <div class="card-grid card-grid--3">
+        <div class="card">
+          <div class="card-icon icon-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h3>Content Deduplication</h3>
+          <p>Every document is fingerprinted with SHA-256. If it hasn't changed since last sync, it's skipped entirely — no re-embedding needed.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon icon-blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          </div>
+          <h3>Incremental Sync</h3>
+          <p>Only new or changed content gets processed when you re-sync a source. Saves time and computing power.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon icon-purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>Runs 100% Locally</h3>
+          <p>No cloud services, no API keys required, no data leaving your machine. Everything runs in Docker on your own computer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TECH STACK ===== -->
+  <section>
+    <div class="container">
+      <div class="section-label">Under the Hood</div>
+      <h2 class="section-title">Technology Stack</h2>
+      <p class="section-subtitle">Open-source tools working together. No paid dependencies.</p>
+
+      <table class="tech-table">
+        <thead>
+          <tr><th>Component</th><th>Technology</th><th>What It Does</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Backend</td>
+            <td><span class="tech-badge badge-green">Python</span> <span class="tech-badge badge-green">FastAPI</span></td>
+            <td>Handles API requests, orchestrates ingestion, serves search results</td>
+          </tr>
+          <tr>
+            <td>Frontend</td>
+            <td><span class="tech-badge badge-blue">React</span> <span class="tech-badge badge-blue">TypeScript</span> <span class="tech-badge badge-blue">Vite</span></td>
+            <td>The user interface you interact with in your browser</td>
+          </tr>
+          <tr>
+            <td>Database</td>
+            <td><span class="tech-badge badge-purple">PostgreSQL</span> <span class="tech-badge badge-purple">pgvector</span></td>
+            <td>Stores documents, metadata, and embedding vectors for similarity search</td>
+          </tr>
+          <tr>
+            <td>Embeddings</td>
+            <td><span class="tech-badge badge-amber">sentence-transformers</span></td>
+            <td>Converts text into 768-dimensional meaning vectors — runs on your CPU</td>
+          </tr>
+          <tr>
+            <td>Task Queue</td>
+            <td><span class="tech-badge badge-green">Redis</span> <span class="tech-badge badge-green">RQ</span></td>
+            <td>Runs data ingestion jobs in the background so the app stays responsive</td>
+          </tr>
+          <tr>
+            <td>Charts</td>
+            <td><span class="tech-badge badge-blue">Recharts</span></td>
+            <td>Beautiful, interactive charts for your data dashboard</td>
+          </tr>
+          <tr>
+            <td>Styling</td>
+            <td><span class="tech-badge badge-blue">Tailwind CSS</span></td>
+            <td>Clean, modern look with utility-first CSS classes</td>
+          </tr>
+          <tr>
+            <td>Infrastructure</td>
+            <td><span class="tech-badge badge-purple">Docker Compose</span></td>
+            <td>One command spins up all services — database, cache, backend, frontend</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== API REFERENCE ===== -->
+  <section>
+    <div class="container">
+      <div class="section-label">For Developers</div>
+      <h2 class="section-title">API Reference</h2>
+      <p class="section-subtitle">All endpoints available at <code style="background:var(--gray-100); padding:2px 8px; border-radius:4px; font-size:.9rem;">http://localhost:8000/api/v1</code></p>
+
+      <div class="api-group">
+        <h3>Sources</h3>
+        <div class="api-row"><span class="api-method method-get">GET</span><span class="api-path">/sources</span><span class="api-desc">List all data sources</span></div>
+        <div class="api-row"><span class="api-method method-post">POST</span><span class="api-path">/sources</span><span class="api-desc">Register a new source</span></div>
+        <div class="api-row"><span class="api-method method-get">GET</span><span class="api-path">/sources/{id}</span><span class="api-desc">Get source details</span></div>
+        <div class="api-row"><span class="api-method method-put">PUT</span><span class="api-path">/sources/{id}</span><span class="api-desc">Update source configuration</span></div>
+        <div class="api-row"><span class="api-method method-delete">DEL</span><span class="api-path">/sources/{id}</span><span class="api-desc">Remove source and all its data</span></div>
+        <div class="api-row"><span class="api-method method-post">POST</span><span class="api-path">/sources/{id}/sync</span><span class="api-desc">Start an ingestion job</span></div>
+      </div>
+
+      <div class="api-group">
+        <h3>Search</h3>
+        <div class="api-row"><span class="api-method method-post">POST</span><span class="api-path">/query/search</span><span class="api-desc">Semantic search across all data</span></div>
+      </div>
+
+      <div class="api-group">
+        <h3>Jobs</h3>
+        <div class="api-row"><span class="api-method method-get">GET</span><span class="api-path">/jobs</span><span class="api-desc">List ingestion jobs</span></div>
+        <div class="api-row"><span class="api-method method-get">GET</span><span class="api-path">/jobs/{id}</span><span class="api-desc">Get job progress</span></div>
+        <div class="api-row"><span class="api-method method-delete">DEL</span><span class="api-path">/jobs/{id}</span><span class="api-desc">Cancel a running job</span></div>
+      </div>
+
+      <div class="api-group">
+        <h3>Documents</h3>
+        <div class="api-row"><span class="api-method method-get">GET</span><span class="api-path">/documents</span><span class="api-desc">Browse ingested documents</span></div>
+        <div class="api-row"><span class="api-method method-get">GET</span><span class="api-path">/documents/{id}</span><span class="api-desc">Full document content</span></div>
+        <div class="api-row"><span class="api-method method-delete">DEL</span><span class="api-path">/documents/{id}</span><span class="api-desc">Remove a document</span></div>
+      </div>
+
+      <div class="api-group">
+        <h3>Charts</h3>
+        <div class="api-row"><span class="api-method method-get">GET</span><span class="api-path">/charts/source-distribution</span><span class="api-desc">Documents by source type</span></div>
+        <div class="api-row"><span class="api-method method-get">GET</span><span class="api-path">/charts/ingestion-timeline</span><span class="api-desc">Ingestion activity over time</span></div>
+        <div class="api-row"><span class="api-method method-get">GET</span><span class="api-path">/charts/query-activity</span><span class="api-desc">Search frequency over time</span></div>
+      </div>
+
+      <div class="api-group">
+        <h3>Health</h3>
+        <div class="api-row"><span class="api-method method-get">GET</span><span class="api-path">/health</span><span class="api-desc">Service status check</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GETTING STARTED ===== -->
+  <section>
+    <div class="container">
+      <div class="section-label">Getting Started</div>
+      <h2 class="section-title">Up and Running in Minutes</h2>
+      <p class="section-subtitle">Two ways to run — pick whichever suits you.</p>
+
+      <div class="card-grid card-grid--2">
+        <!-- Docker -->
+        <div class="card" style="padding: 32px;">
+          <h3 style="font-size:1.15rem; margin-bottom:4px;">Option A: Docker (Easiest)</h3>
+          <p style="font-size:.85rem; color:var(--gray-500); margin-bottom:20px;">Everything in containers. Just need Docker installed.</p>
+          <ol class="steps-list">
+            <li>
+              <div>
+                <h4>Clone and configure</h4>
+                <code>cp .env.example .env</code>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h4>Start all services</h4>
+                <code>make docker-up</code>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h4>Run database migrations</h4>
+                <code>docker compose exec backend alembic upgrade head</code>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h4>Open the app</h4>
+                <p>Visit <strong>http://localhost:3000</strong> in your browser.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Local Dev -->
+        <div class="card" style="padding: 32px;">
+          <h3 style="font-size:1.15rem; margin-bottom:4px;">Option B: Local Development</h3>
+          <p style="font-size:.85rem; color:var(--gray-500); margin-bottom:20px;">Infrastructure in Docker, code running locally with hot-reload.</p>
+          <ol class="steps-list">
+            <li>
+              <div>
+                <h4>Start infrastructure</h4>
+                <code>docker compose up -d postgres redis</code>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h4>Start the backend</h4>
+                <code>cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-dev.txt
+alembic upgrade head
+uvicorn app.main:app --reload --port 8000</code>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h4>Start the frontend</h4>
+                <code>cd frontend
+npm install
+npm run dev</code>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h4>Open the app</h4>
+                <p>Visit <strong>http://localhost:3000</strong> in your browser.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Makefile commands -->
+      <div style="margin-top:40px;">
+        <h3 style="font-size:1.1rem; font-weight:600; margin-bottom:16px; color:var(--gray-800);">Handy Commands</h3>
+        <table class="tech-table">
+          <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+          <tbody>
+            <tr><td><code>make docker-up</code></td><td>Build and start all services in Docker</td></tr>
+            <tr><td><code>make docker-down</code></td><td>Stop all services</td></tr>
+            <tr><td><code>make dev</code></td><td>Start infra in Docker + backend/frontend locally</td></tr>
+            <tr><td><code>make migrate</code></td><td>Run database migrations</td></tr>
+            <tr><td><code>make test</code></td><td>Run all backend and frontend tests</td></tr>
+            <tr><td><code>make lint</code></td><td>Lint and type-check everything</td></tr>
+            <tr><td><code>make clean</code></td><td>Remove build artifacts and caches</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>Personal Data Hub &mdash; 100% local, 100% open source, 100% yours.</p>
+    <p style="margin-top:8px;">Built with <a href="https://fastapi.tiangolo.com/">FastAPI</a>, <a href="https://react.dev/">React</a>, <a href="https://github.com/pgvector/pgvector">pgvector</a>, and <a href="https://www.sbert.net/">sentence-transformers</a>.</p>
+  </footer>
+
+</body>
+</html>

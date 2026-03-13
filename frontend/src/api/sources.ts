@@ -1,8 +1,24 @@
 import client from "./client";
-import type { Source, SourceCreate, Job } from "./types";
+import type { Source, SourceCreate, Job, PaginatedDocuments } from "./types";
 
 export async function fetchSources(): Promise<Source[]> {
   const { data } = await client.get<Source[]>("/sources");
+  return data;
+}
+
+export async function fetchSource(id: string): Promise<Source> {
+  const { data } = await client.get<Source>(`/sources/${id}`);
+  return data;
+}
+
+export async function fetchSourceDocuments(
+  sourceId: string,
+  page: number = 1,
+  size: number = 20,
+): Promise<PaginatedDocuments> {
+  const { data } = await client.get<PaginatedDocuments>("/documents", {
+    params: { source_id: sourceId, page, size },
+  });
   return data;
 }
 

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import type { Source } from "../../api/types";
 
 interface SourceCardProps {
@@ -14,8 +15,13 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 export default function SourceCard({ source, onSync, onDelete }: SourceCardProps) {
+  const navigate = useNavigate();
+
   return (
-    <div className="border border-gray-200 rounded-lg p-4">
+    <div
+      className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+      onClick={() => navigate(`/sources/${source.id}`)}
+    >
       <div className="flex items-center justify-between mb-2">
         <h3 className="font-medium text-gray-900">{source.name}</h3>
         <span className="text-xs px-2 py-1 bg-gray-100 rounded">
@@ -33,13 +39,13 @@ export default function SourceCard({ source, onSync, onDelete }: SourceCardProps
       </div>
       <div className="mt-3 flex gap-2">
         <button
-          onClick={() => onSync(source.id)}
+          onClick={(e) => { e.stopPropagation(); onSync(source.id); }}
           className="px-3 py-1.5 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           Sync
         </button>
         <button
-          onClick={() => onDelete(source.id)}
+          onClick={(e) => { e.stopPropagation(); onDelete(source.id); }}
           className="px-3 py-1.5 text-sm border border-red-300 text-red-600 rounded hover:bg-red-50"
         >
           Delete
