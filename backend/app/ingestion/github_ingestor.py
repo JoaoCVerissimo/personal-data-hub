@@ -103,11 +103,13 @@ class GitHubIngestor(BaseIngestor):
                 ".yml", ".yaml", ".json", ".toml",
             }
             try:
-                contents = repo.get_contents("")
+                raw_contents = repo.get_contents("")
+                contents = raw_contents if isinstance(raw_contents, list) else [raw_contents]
                 while contents:
                     file_content = contents.pop(0)
                     if file_content.type == "dir":
-                        contents.extend(repo.get_contents(file_content.path))
+                        sub = repo.get_contents(file_content.path)
+                        contents.extend(sub if isinstance(sub, list) else [sub])
                     elif any(file_content.path.endswith(ext) for ext in code_extensions):
                         try:
                             decoded = base64.b64decode(file_content.content).decode(

@@ -88,21 +88,22 @@ class EmailIngestor(BaseIngestor):
                 content_type = part.get_content_type()
                 if content_type == "text/plain":
                     payload = part.get_payload(decode=True)
-                    if payload:
+                    if isinstance(payload, bytes):
                         text_parts.append(payload.decode("utf-8", errors="replace"))
                 elif content_type == "text/html" and not text_parts:
                     payload = part.get_payload(decode=True)
-                    if payload:
+                    if isinstance(payload, bytes):
                         html = payload.decode("utf-8", errors="replace")
                         soup = BeautifulSoup(html, "html.parser")
                         text_parts.append(soup.get_text(separator="\n", strip=True))
             return "\n".join(text_parts)
         else:
             payload = msg.get_payload(decode=True)
-            if payload:
+            if isinstance(payload, bytes):
                 text = payload.decode("utf-8", errors="replace")
                 if msg.get_content_type() == "text/html":
                     soup = BeautifulSoup(text, "html.parser")
-                    return soup.get_text(separator="\n", strip=True)
+                    result: str = soup.get_text(separator="\n", strip=True)
+                    return result
                 return text
         return ""

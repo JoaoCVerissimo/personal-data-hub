@@ -30,7 +30,7 @@ async def list_jobs(
 async def get_job(
     job_id: uuid.UUID, db: AsyncSession = Depends(get_db)
 ) -> IngestionJob:
-    job = await db.get(IngestionJob, job_id)
+    job: IngestionJob | None = await db.get(IngestionJob, job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
     return job

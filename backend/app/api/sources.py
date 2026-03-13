@@ -40,7 +40,7 @@ async def create_source(
 async def get_source(
     source_id: uuid.UUID, db: AsyncSession = Depends(get_db)
 ) -> DataSource:
-    source = await db.get(DataSource, source_id)
+    source: DataSource | None = await db.get(DataSource, source_id)
     if not source:
         raise HTTPException(status_code=404, detail="Source not found")
     return source
@@ -52,7 +52,7 @@ async def update_source(
     payload: SourceUpdate,
     db: AsyncSession = Depends(get_db),
 ) -> DataSource:
-    source = await db.get(DataSource, source_id)
+    source: DataSource | None = await db.get(DataSource, source_id)
     if not source:
         raise HTTPException(status_code=404, detail="Source not found")
     if payload.name is not None:

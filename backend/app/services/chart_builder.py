@@ -26,27 +26,37 @@ class ChartBuilder:
 
     async def source_distribution(self) -> list[ChartDataPoint]:
         stmt = (
-            select(DataSource.source_type, func.count(Document.id).label("count"))
+            select(
+                DataSource.source_type,
+                func.count(Document.id).label("doc_count"),
+            )
             .outerjoin(Document, DataSource.id == Document.source_id)
             .group_by(DataSource.source_type)
             .order_by(func.count(Document.id).desc())
         )
         result = await self.db.execute(stmt)
-        return [ChartDataPoint(label=row.source_type, value=row.count) for row in result.all()]
+        return [
+            ChartDataPoint(label=row.source_type, value=row.doc_count)
+            for row in result.all()
+        ]
 
     async def ingestion_timeline(self, days: int = 30) -> list[TimeSeriesPoint]:
         stmt = (
             select(
                 func.date_trunc("day", Document.created_at).label("day"),
-                func.count(Document.id).label("count"),
+                func.count(Document.id).label("doc_count"),
             )
-            .where(Document.created_at >= func.now() - text(f"interval '{days} days'"))
+            .where(
+                Document.created_at >= func.now() - text(f"interval '{days} days'")
+            )
             .group_by("day")
             .order_by("day")
         )
         result = await self.db.execute(stmt)
         return [
-            TimeSeriesPoint(date=row.day.strftime("%Y-%m-%d"), value=row.count)
+            TimeSeriesPoint(
+                date=row.day.strftime("%Y-%m-%d"), value=row.doc_count
+            )
             for row in result.all()
         ]
 
@@ -54,14 +64,18 @@ class ChartBuilder:
         stmt = (
             select(
                 func.date_trunc("day", QueryLog.created_at).label("day"),
-                func.count(QueryLog.id).label("count"),
+                func.count(QueryLog.id).label("query_count"),
             )
-            .where(QueryLog.created_at >= func.now() - text(f"interval '{days} days'"))
+            .where(
+                QueryLog.created_at >= func.now() - text(f"interval '{days} days'")
+            )
             .group_by("day")
             .order_by("day")
         )
         result = await self.db.execute(stmt)
         return [
-            TimeSeriesPoint(date=row.day.strftime("%Y-%m-%d"), value=row.count)
+            TimeSeriesPoint(
+                date=row.day.strftime("%Y-%m-%d"), value=row.query_count
+            )
             for row in result.all()
         ]

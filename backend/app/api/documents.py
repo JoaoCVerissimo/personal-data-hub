@@ -47,7 +47,7 @@ async def list_documents(
 async def get_document(
     document_id: uuid.UUID, db: AsyncSession = Depends(get_db)
 ) -> Document:
-    doc = await db.get(Document, document_id)
+    doc: Document | None = await db.get(Document, document_id)
     if not doc:
         raise HTTPException(status_code=404, detail="Document not found")
     return doc

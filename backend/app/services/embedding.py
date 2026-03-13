@@ -24,7 +24,8 @@ class EmbeddingService:
         embeddings = self.model.encode(
             texts, batch_size=batch_size, normalize_embeddings=True, show_progress_bar=False
         )
-        return embeddings.tolist()
+        result: list[list[float]] = embeddings.tolist()
+        return result
 
 
 @lru_cache(maxsize=1)
