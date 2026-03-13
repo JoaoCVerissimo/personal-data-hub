@@ -4,7 +4,7 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-personal_data_hub}
       POSTGRES_USER: ${POSTGRES_USER:-pdh}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
     ports:
       - "5432:5432"
     volumes:
@@ -35,7 +35,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-pdh}:${POSTGRES_PASSWORD:-changeme}@postgres:5432/${POSTGRES_DB:-personal_data_hub}
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-pdh}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-personal_data_hub}
       REDIS_URL: redis://redis:6379
       EMBEDDING_MODEL: ${EMBEDDING_MODEL:-all-mpnet-base-v2}
       GITHUB_TOKEN: ${GITHUB_TOKEN:-}
@@ -55,7 +55,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     environment:
-      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-pdh}:${POSTGRES_PASSWORD:-changeme}@postgres:5432/${POSTGRES_DB:-personal_data_hub}
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-pdh}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-personal_data_hub}
       REDIS_URL: redis://redis:6379
       EMBEDDING_MODEL: ${EMBEDDING_MODEL:-all-mpnet-base-v2}
       GITHUB_TOKEN: ${GITHUB_TOKEN:-}
