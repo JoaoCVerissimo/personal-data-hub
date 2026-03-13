@@ -2,12 +2,12 @@ import time
 import uuid
 from dataclasses import dataclass
 
-from sqlalchemy import select, text
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.document import Document, DocumentChunk
-from app.models.source import DataSource
 from app.models.query_log import QueryLog
+from app.models.source import DataSource
 from app.services.embedding import EmbeddingService
 
 
@@ -47,8 +47,6 @@ class SearchService:
         start = time.monotonic()
 
         query_embedding = self.embedding_service.embed_text(query)
-        embedding_str = "[" + ",".join(str(v) for v in query_embedding) + "]"
-
         stmt = (
             select(
                 DocumentChunk.id,

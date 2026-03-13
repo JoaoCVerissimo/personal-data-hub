@@ -1,11 +1,9 @@
 from dataclasses import dataclass
-from datetime import datetime
 
-from sqlalchemy import Interval, func, select, text
+from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.document import Document
-from app.models.job import IngestionJob
 from app.models.query_log import QueryLog
 from app.models.source import DataSource
 

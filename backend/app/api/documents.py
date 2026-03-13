@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.dependencies import get_db
 from app.models.document import Document
-from app.schemas.document import DocumentResponse, PaginatedDocuments, DocumentListItem
+from app.schemas.document import DocumentListItem, DocumentResponse, PaginatedDocuments
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 

@@ -56,9 +56,15 @@ class GitHubIngestor(BaseIngestor):
                             "repo": repo_name,
                             "number": issue.number,
                             "state": issue.state,
-                            "labels": [l.name for l in issue.labels],
-                            "author": issue.user.login if issue.user else None,
-                            "created_at": issue.created_at.isoformat() if issue.created_at else None,
+                            "labels": [lbl.name for lbl in issue.labels],
+                            "author": (
+                                issue.user.login
+                                if issue.user else None
+                            ),
+                            "created_at": (
+                                issue.created_at.isoformat()
+                                if issue.created_at else None
+                            ),
                         },
                     )
                 )
@@ -77,16 +83,25 @@ class GitHubIngestor(BaseIngestor):
                             "repo": repo_name,
                             "number": pr.number,
                             "state": pr.state,
-                            "author": pr.user.login if pr.user else None,
+                            "author": (
+                                pr.user.login
+                                if pr.user else None
+                            ),
                             "merged": pr.merged,
-                            "created_at": pr.created_at.isoformat() if pr.created_at else None,
+                            "created_at": (
+                                pr.created_at.isoformat()
+                                if pr.created_at else None
+                            ),
                         },
                     )
                 )
 
         # Code files
         if include_code:
-            code_extensions = {".py", ".js", ".ts", ".tsx", ".md", ".yml", ".yaml", ".json", ".toml"}
+            code_extensions = {
+                ".py", ".js", ".ts", ".tsx", ".md",
+                ".yml", ".yaml", ".json", ".toml",
+            }
             try:
                 contents = repo.get_contents("")
                 while contents:

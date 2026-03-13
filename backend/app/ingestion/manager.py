@@ -1,7 +1,7 @@
 import hashlib
 import logging
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -46,7 +46,7 @@ class IngestionManager:
             return
 
         job.status = "running"
-        job.started_at = datetime.now(timezone.utc)
+        job.started_at = datetime.now(UTC)
         await self.db.commit()
 
         try:
@@ -71,16 +71,16 @@ class IngestionManager:
                 await self.db.commit()
 
             source.document_count = job.documents_processed
-            source.last_synced_at = datetime.now(timezone.utc)
+            source.last_synced_at = datetime.now(UTC)
             job.status = "completed"
-            job.completed_at = datetime.now(timezone.utc)
+            job.completed_at = datetime.now(UTC)
             await self.db.commit()
 
         except Exception as e:
             logger.exception("Ingestion failed for job %s", job_id)
             job.status = "failed"
             job.error_message = str(e)
-            job.completed_at = datetime.now(timezone.utc)
+            job.completed_at = datetime.now(UTC)
             await self.db.commit()
 
     async def _process_document(

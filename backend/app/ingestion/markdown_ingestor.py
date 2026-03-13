@@ -42,7 +42,11 @@ class MarkdownIngestor(BaseIngestor):
             metadata["path"] = str(path)
             metadata["size_bytes"] = path.stat().st_size
 
-            title = metadata.pop("title", None) or path.stem.replace("-", " ").replace("_", " ").title()
+            title = (
+                metadata.pop("title", None)
+                or path.stem.replace("-", " ")
+                .replace("_", " ").title()
+            )
 
             return IngestedDocument(
                 external_id=f"md:{path}",

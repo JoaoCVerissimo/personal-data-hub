@@ -31,7 +31,7 @@ export default function ResultCard({ result }: ResultCardProps) {
       <p className="text-sm text-gray-600 line-clamp-3">{result.content}</p>
       <div className="mt-2 text-xs text-gray-400">
         Source: {result.source_name}
-        {result.source_type === "github" && result.source_config?.repos && (
+        {result.source_type === "github" && Array.isArray(result.source_config?.repos) && (
           <span className="ml-1">
             ({(result.source_config.repos as string[]).join(", ")})
           </span>

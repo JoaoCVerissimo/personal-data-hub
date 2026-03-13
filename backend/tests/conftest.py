@@ -1,5 +1,6 @@
+from unittest.mock import patch
+
 import pytest
-from unittest.mock import MagicMock, patch
 from httpx import ASGITransport, AsyncClient
 
 from app.main import app
